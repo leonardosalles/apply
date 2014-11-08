@@ -1,0 +1,224 @@
+<div class="artwork-create" ng-if="create">
+    <div class="row headers">
+        <div class="col-sm-2">{{'home.artistAndTitleAndDate' | i18n}}</div>
+        <div class="col-sm-2">{{'home.mediumAndMaterial' | i18n}}</div>
+        <div class="col-sm-4">{{'home.dimensionsAndColor' | i18n}}</div>
+        <div class="col-sm-2">{{'home.price' | i18n}}</div>
+        <div class="col-sm-2"></div>
+    </div>
+    
+    <div class="row forms">
+        <form name="form" class="form-inline" ng-submit="includeArtwork()" ng-init="setFormScope(this)">
+           <div class="row">
+                <div class="col-sm-2">
+                    <input type="text" ng-model="entity.artist" placeholder="Artist" class="form-control" enzo-required="true" />
+                    <input type="text" ng-model="entity.title" placeholder="Title" class="form-control" enzo-required="true" />
+                    <input type="text" ng-model="entity.year" placeholder="Year" class="form-control" enzo-required="true" maxlength="4" />
+                </div>
+
+                <div class="col-sm-2">
+                    <input type="text" enzo-select2="mediumSelect" ng-model="entity.medium" class="col-sm-12" enzo-required="true" />
+                </div>
+
+                <div class="col-sm-4 dimensions">
+                    <div class="col-sm-10 wrap-dimensions pull-right">
+                       <div class="col-sm-2 labels">
+                           H, W<span ng-if="entity.medium === '2'">, D</span>
+                       </div>
+                       <div class="col-sm-10">
+                            <div class="form-group">
+                                <label for="h{{artwork.id}}">H: </label>
+                                <input type="text" class="form-control" id="h{{artwork.id}}" ng-model="entity.dimension1" enzo-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="w{{artwork.id}}">W: </label>
+                                <input type="text" class="form-control" id="w{{artwork.id}}" ng-model="entity.dimension2" enzo-required="true">
+                            </div>
+                            <div class="form-group" ng-if="entity.medium === '2'">
+                                <label for="d{{artwork.id}}">D: </label>
+                                <input type="text" class="form-control" id="d{{artwork.id}}" ng-model="entity.dimension3" enzo-required="true">
+                            </div>
+                            <div class="form-group">
+                                <select type="text" class="form-control" ng-model="entity.dimensions_in_cm" enzo-select2-clear="false" enzo-required="true">
+                                    <option value="true">cm</option>
+                                    <option value="false">inches</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="price" class="col-sm-4 control-label">{{'home.price' | i18n}}</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control price" id="price" ng-model="entity.price" enzo-required="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row net-gross">
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="net{{artwork.id}}" checked> <label for="net{{artwork.id}}"> {{'home.net' | i18n}}</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="gross{{artwork.id}}"> <label for="gross{{artwork.id}}"> {{'home.gross' | i18n}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="vat" class="col-sm-4 control-label">{{'home.vat' | i18n}}</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="vat" ng-model="entity.vat" enzo-required="true">
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2 text-right button-action">
+                    <a href ng-click="deleteCurrentArtwork()" title="{{'home.deleteArtwork' | i18n}}" class="delete-action">{{'home.deleteArtwork' | i18n}}</a>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <textarea ng-model="entity.description" class="form-control description" rows="4" enzo-required="true" placeholder="{{'home.description' | i18n}}"></textarea>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12 text-right">
+                    <button class="btn btn-primary" type="submit">{{'home.saveArtwork' | i18n}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="artwork-list row" ng-repeat="artwork in filtered = (artworks | artist: artistTxt)">
+    <form name="form" class="form-inline" ng-submit="updateArtwork(artwork)">
+        <div class="row">
+            <div class="col-sm-2">
+                <span class="artist">{{artwork.artist}}</span>
+                <span class="title">{{artwork.title}}</span>
+                <span class="artist">{{artwork.year}}</span>
+            </div>
+
+            <div class="col-sm-2 wrap-medium-material">
+                <input type="text" enzo-select2="mediumSelect" ng-model="artwork.medium" class="col-sm-12" />
+
+                <ol class="materials" ng-init="currentMaterials = getArtworkMaterial(artwork)">
+                    <li ng-repeat="material in artwork.materialsTmp">
+                        <span class="name">{{material.name}}</span>
+                        <span class="glyphicon glyphicon-remove remove" ng-click="removeMaterial(artwork, $index)"></span>
+                    </li>
+                </ol>
+                <input type="text" enzo-select2="materialSelect" data-artwork-id="{{$index}}" placeholder="{{'home.materials' | i18n}}" ng-model="avoidMaterial" class="col-sm-12" />
+            </div>
+
+            <div class="col-sm-4 dimensions">
+                <div class="col-sm-2 first-dimension">
+                    <strong>{{artwork.dimension1}}x</strong>
+                </div>
+                <div class="col-sm-10 wrap-dimensions">
+                   <div class="col-sm-2 labels">
+                       H, W<span ng-if="isSculpture(artwork.medium)">, D</span>
+                   </div>
+                   <div class="col-sm-10">
+                        <div class="form-group">
+                            <label for="h{{$index}}">H: </label>
+                            <input type="text" class="form-control" id="h{{$index}}" ng-model="artwork.dimension1">
+                        </div>
+                        <div class="form-group">
+                            <label for="w{{$index}}">W: </label>
+                            <input type="text" class="form-control" id="w{{$index}}" ng-model="artwork.dimension2">
+                        </div>
+                        <div class="form-group" ng-if="isSculpture(artwork.medium)">
+                            <label for="d{{$index}}">D: </label>
+                            <input type="text" class="form-control" id="d{{$index}}" ng-model="artwork.dimension3">
+                        </div>
+                        <div class="form-group">
+                            <select type="text" class="form-control" ng-model="artwork.dimensions_in_cm" enzo-select2-clear="false">
+                                <option ng-selected="artwork.dimensions_in_cm === true" value="true">cm</option>
+                                <option ng-selected="artwork.dimensions_in_cm === false" value="false">inches</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2 paiting" ng-if="!isSculpture(artwork.medium)">
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{artwork.price}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{'home.net' | i18n}}
+                    </div>
+                    <div class="col-sm-6">
+                        {{'home.vat' | i18n}}: {{artwork.vat}}%
+                    </div>
+                </div>
+            </div>
+               
+            <div class="col-sm-2" ng-if="isSculpture(artwork.medium)">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="price{{$index}}" class="col-sm-4 control-label">{{'home.price' | i18n}}</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control price" id="price{{$index}}" ng-model="artwork.price">
+                        </div>
+                    </div>
+                </div>
+                <div class="row net-gross">
+                    <div class="col-sm-6">
+                        <input type="checkbox" id="net{{$index}}" checked> <label for="net{{$index}}"> {{'home.net' | i18n}}</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="checkbox" id="gross{{$index}}"> <label for="gross{{$index}}"> {{'home.gross' | i18n}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="vat{{$index}}" class="col-sm-4 control-label">{{'home.vat' | i18n}}</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="vat{{$index}}" ng-model="artwork.vat">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2 text-right">
+                <a href ng-click="deleteArtwork(artwork.id)" title="{{'home.deleteArtwork' | i18n}}" class="delete-action">{{'home.deleteArtwork' | i18n}}</a>
+            </div>
+        </div>
+        <div class="row">
+           <div class="col-sm-12 text-center toggle-link">
+               <a href ng-click="toggle(artwork)" title="Toggle" ng-init="artwork.toggleText = 'Show more'">
+                   {{artwork.toggleText}}
+               </a>
+           </div>
+
+            <div class="col-sm-12" ng-if="artwork.expanded">
+                <textarea ng-model="artwork.description" class="form-control description" rows="4" placeholder="{{'home.description' | i18n}}"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-primary" type="submit">{{'home.updateArtwork' | i18n}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="col-sm-12" ng-if="artworks && filtered.length === 0">
+   {{'message.noResults' | i18n}}
+</div>

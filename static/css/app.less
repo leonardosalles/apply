@@ -1,0 +1,265 @@
+@import 'artwork.less';
+
+@baseFontSize:                    13px;
+@baseLineHeight:                  20px;
+
+@container-md: ((978px + @grid-gutter-width));
+
+
+body {
+    padding-top: 50px;
+    padding-bottom: 40px;
+    font-family: 'Open Sans', sans-serif;
+    color: #666;
+}
+
+.header {
+    display: none;
+}
+
+.body-progress {
+    display: block;
+    padding: 13px;		
+
+    .body-progress-text {
+        font-size: 15px;
+        line-height: 20px;
+    }
+
+    .body-progress-bar {
+        width: 320px;
+    }
+}
+
+
+.body-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    background: rgba(255,255,255, 0.6);
+    z-index: 9999;
+    text-align: center;
+    color: #999999;
+    display:none;
+
+    .body-loader-inner {
+        position: fixed;
+        top: 50%;
+        left: 0;
+        right: 0;
+    }
+}
+
+&.ready {
+    .header {
+        display: block;
+    }
+
+    .body-loader.active {
+        display: block;
+    }
+
+    .body-progress {
+        display: none;
+    }
+}
+
+.select2-results {
+  max-height: 215px;
+  margin: -2px 4px 4px 0;
+}
+
+.nav {
+  & > li {
+    border-right: 1px solid #FFFFFF;
+  }
+}
+
+.select2-hidden {
+    ul {
+        .select2-no-results {
+            display:none !important;
+        }
+    }
+}
+
+.artwork-list {
+    border-top: 1px solid black;
+    padding: 20px 0 20px 0;
+
+    .artist, .title, .year {
+        display: block;
+        margin-bottom: 8px;
+    }
+    
+    .toggle-link {
+        padding: 20px 0;
+    }
+}
+
+.paiting {
+    border: 1px solid;
+    margin: 20px 0;
+    
+    .col-sm-12 {
+        border-bottom: 1px solid;
+        text-align: right;
+    }
+    
+    .col-sm-6 {
+        padding-right: 0;
+    }
+    
+    .col-sm-6:first-child {
+        border-right: 1px solid;
+    }
+}
+
+.wrap-medium-material {
+    padding: 0;
+    
+    .select2-container:first-child {
+        padding: 10px 0;
+    }
+}
+
+.net-gross {
+    padding: 7px 0;
+}
+
+.button-action {
+    padding: 0 15px 20px 0;
+}
+
+.delete-action {
+    margin: 40px 0 0 0;
+    display: block;
+}
+
+.dimensions {
+    .first-dimension {
+        padding: 42px 0 0 15px;
+        text-align: right;
+    }
+    
+    .wrap-dimensions {
+        min-height: 100px;
+        border: 1px solid;
+        padding: 15px 0 0 10px;
+        
+        .col-sm-10 {
+            padding: 0 10px;
+            
+            
+                label {
+                    display: block;
+                    font-size: 10px;
+                }
+
+                input {
+                    width: 43px !important;
+                    padding: 5px;
+                }
+
+                .select2-container {
+                    width: 74px;
+                    padding-top: 10px;
+                }
+            
+        }
+    }
+    
+    .labels {
+        font-size: 10px;
+        padding: 30px 0;
+        font-weight: bold;
+    }
+    
+    .col-sm-9 {
+        padding-right: 0;
+    }
+    
+    .col-sm-3 {
+        font-size: 10px;
+        padding-top: 30px;
+    }
+}
+
+.artwork-create {
+    .col-sm-2:first-child {
+        input {
+            margin: 5px 0;
+            
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+.forms {
+    padding-bottom: 15px;
+}
+
+.price {
+    width: 100% !important;
+}
+
+.materials {
+    padding: 0;
+    
+    li {
+        display: inline-block;
+        height: 30px;
+        background-color: #e6e6e6;
+        padding-top: 5px;
+        margin-right: 3px;
+        margin-bottom: 2px;
+        
+        .name {
+            margin-right: 5px;
+            padding-left: 8px;
+        }
+        
+        .remove {
+            padding-right: 5px;
+            cursor: pointer;
+        }
+    }
+}
+
+
+.description {
+    width: 100% !important;
+    margin: 35px 15px 35px 0
+}
+
+.headers {
+    border-bottom: 1px solid;
+    margin-bottom: 20px;
+    height: 30px;
+    
+    div {
+        border-right: 1px solid;
+        height: 30px;
+        
+        &:last-child {
+            border: none;
+        }
+    }
+}
+
+#searchclear {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    height: 14px;
+    margin: auto;
+    font-size: 14px;
+    cursor: pointer;
+    color: #ccc;
+}

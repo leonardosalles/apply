@@ -1,0 +1,17 @@
+<div class="header">
+    <div class="col-sm-5">
+        <form role="search">
+            <h3>{{'header.search' | i18n}}</h3>
+            
+            <div class="btn-group col-sm-12 no-padding">
+                <input type="search" id="searchinput" class="form-control" ng-model="filter.artist" ng-change="filterList()" enzo-required="true" placeholder="{{'header.searchYourArtists' | i18n}}">
+                <span id="searchclear" ng-click="clear()" ng-if="filter.artist.length > 0" class="glyphicon glyphicon-remove-circle"></span>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-sm-7 text-right">
+        <a href ng-click="createArtwork()" title="{{'home.createArtwork' | i18n}}">{{'header.createArtwork' | i18n}}</a>
+    </div>
+</div>
+
