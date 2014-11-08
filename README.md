@@ -7,6 +7,9 @@ Devlopment version
 Production version
 [http://leonardosalles.com/apply/dist/](http://leonardosalles.com/apply/dist/ "Production version")
 
+To generate the production version you need Node.js installed and the Grunt.js installed via NPM so you can run
+    grunt dist --clean
+
 
 Project Documentation
 
