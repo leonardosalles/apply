@@ -22,7 +22,7 @@ Project Documentation
   
 >  method: getMediums<br />
   in: Callback as a Function that receives the list of Mediums<br />
-  description: See resourceAsList method<br />
+  out: See resourceAsList method<br />
   <br />
 >  method: getMaterials<br />
   in: Callback as a Function that receives the list of Materials<br />
